@@ -6,7 +6,7 @@ class MyModule extends Module
     {
         $this->name = 'mymodule';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.1u';
         $this->author = 'Moi même';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
@@ -22,6 +22,47 @@ class MyModule extends Module
         if (!Configuration::get('MYMODULE_NAME')) {
             $this->warning = $this->l('No name provided');
         }
+    }
+    public function install()
+    {
+        if (Shop::isFeatureActive())
+            Shop::setContext(Shop::CONTEXT_ALL);
+
+        return parent::install() &&
+            $this->registerHook('leftColumn') &&
+            $this->registerHook('header') &&
+            Configuration::updateValue('MYMODULE_NAME', 'my friend');
+
+    }
+    public function hookDisplayLeftColumn($params)
+    {
+        $this->context->smarty->assign(
+            array(
+            'my_module_name' => Configuration::get('MYMODULE_NAME'),
+            'my_module_link' => $this->context->link->getModuleLink('mymodule', 'display'),
+            'my_module_message' => $this->l('This is a simple text message')
+        )
+    );
+    return $this->display(_PS_MODULE_DIR_.$this->name, 'mymodule.tpl');
+    }
+
+    public function hookDisplayRightColumn($params)
+    {
+        return $this->hookDisplayLeftColumn($params);
+    }
+
+    public function hookDisplayHeader()
+    {
+        $this->context->controller->addCSS($this->_path.'css/mymodule.css', 'all');
+    }
+    public function uninstall()
+    {
+        if (!parent::uninstall() ||
+            !Configuration::deleteByName('MYMODULE_NAME')
+        )
+            return false;
+
+        return true;
     }
     public function displayForm()
     {
@@ -84,22 +125,22 @@ class MyModule extends Module
         return $helper->generateForm($fields_form);
     }
     public function getContent()
-{
-    $output = null;
-
-    if (Tools::isSubmit('submit'.$this->name))
     {
-        $my_module_name = strval(Tools::getValue('MYMODULE_NAME'));
-        if (!$my_module_name
-          || empty($my_module_name)
-          || !Validate::isGenericName($my_module_name))
-            $output .= $this->displayError($this->l('Invalid Configuration value'));
-        else
+        $output = null;
+
+        if (Tools::isSubmit('submit'.$this->name))
         {
-            Configuration::updateValue('MYMODULE_NAME', $my_module_name);
-            $output .= $this->displayConfirmation($this->l('Settings updated'));
+            $my_module_name = strval(Tools::getValue('MYMODULE_NAME'));
+            if (!$my_module_name
+              || empty($my_module_name)
+              || !Validate::isGenericName($my_module_name))
+                $output .= $this->displayError($this->l('Invalid Configuration value'));
+            else
+            {
+                Configuration::updateValue('MYMODULE_NAME', $my_module_name);
+                $output .= $this->displayConfirmation($this->l('Settings updated'));
+            }
         }
-    }
     return $output.$this->displayForm();
-}
+    }
 }
