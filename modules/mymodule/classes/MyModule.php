@@ -25,8 +25,9 @@ class MyModule extends Module
     }
     public function install()
     {
-        if (Shop::isFeatureActive())
+        if (Shop::isFeatureActive()) {
             Shop::setContext(Shop::CONTEXT_ALL);
+        }
 
         return parent::install() &&
             $this->registerHook('leftColumn') &&
@@ -41,9 +42,9 @@ class MyModule extends Module
             'my_module_name' => Configuration::get('MYMODULE_NAME'),
             'my_module_link' => $this->context->link->getModuleLink('mymodule', 'display'),
             'my_module_message' => $this->l('This is a simple text message')
-        )
-    );
-    return $this->display(_PS_MODULE_DIR_.$this->name, 'mymodule.tpl');
+            )
+        );
+        return $this->display(_PS_MODULE_DIR_.$this->name, 'mymodule.tpl');
     }
 
     public function hookDisplayRightColumn($params)
@@ -59,8 +60,9 @@ class MyModule extends Module
     {
         if (!parent::uninstall() ||
             !Configuration::deleteByName('MYMODULE_NAME')
-        )
+        ) {
             return false;
+        }
 
         return true;
     }
@@ -128,25 +130,24 @@ class MyModule extends Module
     {
         $output = null;
 
-        if (Tools::isSubmit('submit'.$this->name))
-        {
+        if (Tools::isSubmit('submit'.$this->name)) {
             $my_module_name = strval(Tools::getValue('MYMODULE_NAME'));
             if (!$my_module_name
               || empty($my_module_name)
-              || !Validate::isGenericName($my_module_name))
+              || !Validate::isGenericName($my_module_name)) {
                 $output .= $this->displayError($this->l('Invalid Configuration value'));
-            else
-            {
+            } else {
                 Configuration::updateValue('MYMODULE_NAME', $my_module_name);
                 $output .= $this->displayConfirmation($this->l('Settings updated'));
             }
         }
-    return $output.$this->displayForm();
+        return $output.$this->displayForm();
     }
 
-    public static function getProductTotal() {
-		$productObj = new Product();
-		$products = $productObj->getProducts(Context::getContext()->language->id, 0, 0, 'id_product', 'DESC', false, true );
-		return count( $products );
-	}
+    public static function getProductTotal()
+    {
+        $productObj = new Product();
+        $products = $productObj->getProducts(Context::getContext()->language->id, 0, 0, 'id_product', 'DESC', false, true);
+        return count($products);
+    }
 }
