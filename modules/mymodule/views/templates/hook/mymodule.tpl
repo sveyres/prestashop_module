@@ -9,6 +9,9 @@
       {/if}
       {l s='Hello %1$s!' sprintf=$my_module_name mod='mymodule'}
     </p>
+    <p><div id="product-total">
+    Faites votre choix parmi les <span>{mymodule::getProductTotal()}</span> produits de la boutique !
+</div></p>
     <ul>
       <li><a href="{$my_module_link}"  title="{l s='Click this link' mod='mymodule'}">{l s='Click me!' mod='mymodule'}</a></li>
     </ul>
