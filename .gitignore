@@ -3,6 +3,8 @@
 !/modules
 /modules/*
 !/modules/mymodule
+!/modules/blogmodule
+!/modules/showthelast
 !/config
 /config/*
 !/config/defines.inc.php
