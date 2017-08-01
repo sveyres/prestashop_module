@@ -11,7 +11,7 @@ class BlogPost extends ObjectModel
         'fields' => array(
             'title' => array('type' => self::TYPE_STRING, 'validate' => 'isString'),
             'content' => array('type' => self::TYPE_STRING, 'validate' => 'isString'),
-            'date' => array('type' => self::TYPE_DATE, 'validate' => 'isString'),
+            // 'date' => array('type' => self::TYPE_DATE, 'validate' => 'isString'),
         ),
     );
 }

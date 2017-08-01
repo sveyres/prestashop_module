@@ -5,7 +5,9 @@ class AdminBlogModuleController extends ModuleAdminController {
     public function __construct()
     {
         $this->table = 'blogmodule';
-        $this->classname = 'BlogPost';
+        $this->className = 'BlogPost';
+        $this->actions = array('delete');
+        $this->bootstrap = True;
 
         $this->fields_list = array(
             'title' => array(
@@ -18,6 +20,7 @@ class AdminBlogModuleController extends ModuleAdminController {
                 'title' => $this->l('date'),
             ),
         );
+
         $this->fields_form = array(
 			'legend' => array(
 				'title' => $this->l('title'),
@@ -31,19 +34,20 @@ class AdminBlogModuleController extends ModuleAdminController {
 				array(
 					'type' => 'text',
 					'label' => $this->l('Description:'),
-					'name' => 'content'
+					'name' => 'content',
+                    'id' => 'post_content'
 				),
-                array(
-					'type' => 'date',
-					'label' => $this->l('date:'),
-					'name' => 'date'
-				)
+                // array(
+				// 	'type' => 'date',
+				// 	'label' => $this->l('date:'),
+				// 	'name' => 'date'
+				// )
 			),
 			'submit' => array(
 				'title' => $this->l('Save'),
-				'class' => 'button'
+				'class' => 'btn btn-default pull-right'
 			)
         );
-    parent::__construct();
+        parent::__construct();
     }
 }

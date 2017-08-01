@@ -6,7 +6,7 @@ class BlogModule extends Module
     {
         $this->name = 'blogmodule';
         $this->tab = 'front_office_features';
-        $this->version = '1.1u';
+        $this->version = '1.0.0';
         $this->author = 'Moi même aussi';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
@@ -33,10 +33,10 @@ class BlogModule extends Module
             || !$this->installTab()
             || !$this->installDb()
             || !$this->registerHook('displayHome')
-            || !$this->registerHook('displayLeftColumn'))
-            {
-                return false;
-            }
+
+        ){
+            return false;
+        }
         return true;
     }
 
@@ -46,10 +46,11 @@ class BlogModule extends Module
     {
         return Db::getInstance()->Execute('
         CREATE TABLE '._DB_PREFIX_.'blogmodule (
-            id_blogmodule INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-            title VARCHAR(256) NOT NULL,
-            content VARCHAR(500) NOT NULL,
-            date DATETIME DEFAULT CURRENT_TIMESTAMP )');
+            id_blogmodule INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(200) NOT NULL,
+            content TEXT NOT NULL,
+            date DATETIME DEFAULT CURRENT_TIMESTAMP )'
+        );
     }
 
     public function uninstallDb()
