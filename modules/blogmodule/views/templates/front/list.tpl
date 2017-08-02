@@ -1,12 +1,12 @@
-{l s='Welcome to this page!' mod='blogmodule'}
-<p>Hello,
-    {if isset($my_module_name) && $my_module_name}
-        {$my_module_name}
-    {else}
-        World
-    {/if}
-    !
-</p>
-{foreach from=$posts item=post}
-<a href="{$post.link}"><p>{$post.title}</p></a>
-{/foreach}
+<div id="blogmodule_block_left" class="block">
+<h4>{l s='Welcome to this blog!' mod='blogmodule'}</h4>
+
+<h3>Liste des articles</h3>
+    {foreach from=$posts item=post}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="{$post.link}">{$post.title}</a>
+            </div>
+        </div>
+    {/foreach}
+</div>
