@@ -7,3 +7,6 @@
     {/if}
     !
 </p>
+{foreach from=$posts item=post}
+<a href="{$post.link}"><p>{$post.title}</p></a>
+{/foreach}
