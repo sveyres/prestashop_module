@@ -96,7 +96,7 @@ class BlogModule extends Module
         $this->context->smarty->assign(
             array(
             'my_module_name' => Configuration::get('BLOGMODULE_NAME'),
-            'my_module_link' => $this->context->link->getModuleLink('blogmodule', 'display'),
+            'my_module_link' => $this->context->link->getModuleLink('blogmodule', 'list'),
             'my_module_message' => $this->l('This is a simple text message'),
             'last_article' => $product
             )
